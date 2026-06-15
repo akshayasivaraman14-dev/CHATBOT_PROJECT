@@ -23,4 +23,5 @@ An AI-powered IT Helpdesk Chatbot built using Flask, Gemini AI, and Incident Man
 - CSS
 - JavaScript
 
-## Project Structure
+## Project Structure pls say bro how to push the reporstries from the first becuse i have ceated one repostries in github acount but 
+still ow i cant able push thatpls 

@@ -22,3 +22,4 @@ def ask_ollama(question):
         print("Ollama Error:", e)
 
         return None
+        
