@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOG BOT</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#0f172a,#1e1b4b);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+}
+
+.container{
+    text-align:center;
+    width:90%;
+    max-width:800px;
+}
+
+.logo{
+    width:100px;
+    height:100px;
+    margin:auto;
+    border-radius:50%;
+    background:#a855f7;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:40px;
+    margin-bottom:20px;
+    box-shadow:0 0 25px rgba(168,85,247,.5);
+}
+
+h1{
+    font-size:3rem;
+    margin-bottom:15px;
+}
+
+/* CHANGED COLOR THEME SLIGHTLY (still same logic) */
+h1 span{
+    background:linear-gradient(135deg,#ec4899,#a855f7);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+p{
+    color:#cbd5e1;
+    margin-bottom:40px;
+    font-size:1.1rem;
+}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:15px 35px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:18px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.start{
+    background:#d118c5;
+    color:white;
+}
+
+.admin{
+    background:#df0dd1;
+    color:white;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+.footer{
+    margin-top:40px;
+    color:#94a3b8;
+    font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">🤖</div>
+
+    <!-- CHANGED TEXT -->
+    <h1>LOG BOT</h1>
+
+    <p>
+        Smart AI-powered IT Support and Ticket Resolution Assistant
+    </p>
+
+    <div class="buttons">
+        <button class="btn start" onclick="startChat()">
+            🚀 start chat
+        </button>
+
+        <button class="btn admin" onclick="adminLogin()">
+            🔐 Admin Login
+        </button>
+    </div>
+
+    <div class="footer">
+        Powered by LOG BOT
+    </div>
+
+</div>
+
+<script>
+function startChat(){
+    window.location.href="/chat";
+}
+
+function adminLogin(){
+    window.location.href="/login";
+}
+</script>
+
+</body>
+</html>
