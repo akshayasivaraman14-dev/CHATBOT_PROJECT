@@ -1,11 +1,10 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect
 from ai.gemini_engine import ask_gemini
 from ai.ollama_engine import ask_ollama
-from ai.faq_engine import search_incidents
+from ai.faq_engine import search_faq, search_incidents
 import sqlite3
 
 app = Flask(__name__)
-
 
 # -----------------------------
 # DATABASE FUNCTIONS
@@ -56,6 +55,7 @@ def chat():
 def login():
     return render_template("login.html")
 
+
 @app.route("/admin-login", methods=["POST"])
 def admin_login():
 
@@ -82,7 +82,7 @@ def ticket():
     return render_template("ticket.html")
 
 
-# ----------------------------#
+# -----------------------------
 # CHAT API
 # -----------------------------
 
@@ -102,31 +102,38 @@ def ask():
 
         reply = None
 
-        # STEP 1 - Search Company Incident CSV
-        csv_answer = search_incidents(question)
+        # STEP 1 - FAQ JSON
+        faq_answer = search_faq(question)
 
-        if csv_answer:
+        if faq_answer:
+            reply = faq_answer
 
-            reply = (
-                "📁 Found in company incidents:\n\n"
-                + csv_answer
-            )
+        # STEP 2 - Incident CSV
+        if not reply:
 
-        # STEP 2 - Gemini
+            csv_answer = search_incidents(question)
+
+            if csv_answer:
+                reply = (
+                    "📁 Found in company incidents:\n\n"
+                    + csv_answer
+                )
+
+        # STEP 3 - Gemini
         if not reply:
 
             print("Trying Gemini...")
 
             reply = ask_gemini(question)
 
-        # STEP 3 - Ollama Backup
+        # STEP 4 - Ollama Backup
         if not reply:
 
             print("Gemini unavailable. Trying Ollama...")
 
             reply = ask_ollama(question)
 
-        # STEP 4 - Final Fallback
+        # STEP 5 - Final Fallback
         if not reply:
 
             reply = """
@@ -148,6 +155,7 @@ Please raise a support ticket.
         return jsonify({
             "reply": f"Server Error: {str(e)}"
         })
+
 
 # -----------------------------
 # RAISE TICKET
@@ -214,7 +222,6 @@ def stats():
     cursor = conn.cursor()
 
     try:
-
         cursor.execute(
             "SELECT COUNT(*) FROM chat_history"
         )
@@ -224,7 +231,6 @@ def stats():
         total_chats = 0
 
     try:
-
         cursor.execute(
             "SELECT COUNT(*) FROM tickets"
         )
@@ -234,7 +240,6 @@ def stats():
         total_tickets = 0
 
     try:
-
         cursor.execute(
             "SELECT COUNT(*) FROM tickets WHERE status='Open'"
         )
@@ -250,6 +255,8 @@ def stats():
         "total_tickets": total_tickets,
         "open_tickets": open_tickets
     })
+
+
 @app.route("/tickets")
 def get_tickets():
 
